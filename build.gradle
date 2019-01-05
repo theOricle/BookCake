@@ -1,0 +1,36 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+ext {
+    CONFIG_LIBRARY_BUILD_VARIANT = "debug"
+
+    CONFIG_PACKAGE_NAME="com.janus.bookCake"
+    CONFIG_PACKAGE_NAME_DEV_SUFFIX=".d"
+
+    CONFIG_VERSION_CODE_MOBILE = 2200
+    CONFIG_VERSION_NAME_MOBILE = "2.2"
+}
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha12'
+        classpath 'com.google.gms:google-services:4.2.0'
+    }
+}
+
+allprojects {
+
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

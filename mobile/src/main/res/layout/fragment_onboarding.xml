@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.janus.bookCake.presentation.ui.activities.OnBoardingActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="@dimen/material_design_keyline_one">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="140dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="140dp"
+            android:scaleType="centerInside"
+            android:duplicateParentState="true"/>
+        <ImageView
+            android:id="@+id/imageview_app_logo"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_launcher_web_no_shadow"
+            android:transitionName="@string/transition_logo_onboarding_to_login_and_register"/>
+
+        <TextView
+            android:id="@+id/motto"
+            style="@style/OnBoardingTitle"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_below="@+id/imageview_app_logo"
+            android:text="@string/onboarding_title" />
+
+        <Button
+            android:id="@+id/button_cta_login"
+            style="@style/OnBoardingCtaLogin"
+            android:layout_below="@+id/motto"
+            android:layout_gravity="center_horizontal"
+            android:text="Continue" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>
