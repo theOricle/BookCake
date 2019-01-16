@@ -115,9 +115,8 @@ public class TabStripFragment extends Fragment implements ViewPager.OnPageChange
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
-            TITLES = new String[]{"Appointments", "Practitions", "My Practices"};
+            TITLES = new String[]{"Appointments", "My Work Place"};
             pages = new Fragment[TITLES.length];
-            pages[2] = new BucketFragment();
             pages[1] = new BucketFragment();
             pages[0] = new BucketFragment();
 

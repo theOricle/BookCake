@@ -140,9 +140,9 @@ public class PhoneNumberActivity extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        Toolbar mToolBar = findViewById(R.id.toolbar);
-        mToolBar.setTitleTextColor(ContextCompat.getColor(mActivity, R.color.white));
-        setSupportActionBar(mToolBar);
+//        Toolbar mToolBar = findViewById(R.id.toolbar);
+//        mToolBar.setTitleTextColor(ContextCompat.getColor(mActivity, R.color.white));
+//        setSupportActionBar(mToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         if (getIntent().hasExtra("TITLE") && getIntent().getStringExtra("TITLE") != null && !getIntent().getStringExtra("TITLE").equalsIgnoreCase("")) {

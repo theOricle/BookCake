@@ -44,12 +44,24 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.janus.bookCake.R;
+import com.janus.bookCake.data.entities.UserEntity;
+import com.janus.bookCake.domain.interactors.Params;
+import com.janus.bookCake.domain.interactors.user.WriteUserUseCase;
+import com.janus.bookCake.firebase.RxFirebase;
+import com.janus.bookCake.presentation.presenters.impl.RegisterPresenter;
 import com.phonenumberui.utility.Utility;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+
 import static com.janus.bookCake.data.repositories.datasource.UserDataSourceRemote.firebaseAuth;
+import static com.janus.bookCake.data.repositories.datasource.UserDataSourceRemote.firebaseDatabase;
 
 
 public class VerificationCodeActivity extends AppCompatActivity {
@@ -74,6 +86,9 @@ public class VerificationCodeActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private String mVerificationId;
     private CountDownTimer countDownTimer;
+    protected final static String FIREBASE_CHILD_KEY_USERS = "users";
+
+
 
     private PhoneAuthProvider.ForceResendingToken mResendToken;
 
@@ -151,6 +166,8 @@ public class VerificationCodeActivity extends AppCompatActivity {
                                 }
                             }, 500);
                             // ...
+                            writeUserInDatabase(new UserEntity(user.getUid(), user.getEmail(), null, user.getPhoneNumber()));
+
                         } else {
                             // Sign in failed, display a message and update the UI
                             pbVerify.setVisibility(View.GONE);
@@ -166,6 +183,16 @@ public class VerificationCodeActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public Observable<Object> writeUserInDatabase(final UserEntity userEntity) {
+
+        DatabaseReference targetChild = firebaseDatabase.
+                getReference()
+                .child(FIREBASE_CHILD_KEY_USERS)
+                .child(userEntity.getUid());
+
+        return RxFirebase.getObservable(targetChild.setValue(userEntity), new RxFirebase.FirebaseTaskResponseSuccess());
     }
 
     private void setUpUI() {
@@ -456,13 +483,23 @@ public class VerificationCodeActivity extends AppCompatActivity {
     }
 
     private void setUpToolBar() {
-        Toolbar mToolBar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolBar);
+//        Toolbar mToolBar = findViewById(R.id.toolbar);
+//        setSupportActionBar(mToolBar);
     }
 
 
     private void signOut() {
-        firebaseAuth.signOut();
+        logoutUser();
+    }
+
+    public Observable<Void> logoutUser() {
+        return Observable.defer(new Callable<ObservableSource<? extends Void>>() {
+            @Override
+            public ObservableSource<? extends Void> call() throws Exception {
+                firebaseAuth.signOut();
+                return Observable.just(null);
+            }
+        });
     }
 
     @Override

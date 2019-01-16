@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.janus.bookCake.R;
 import com.janus.bookCake.presentation.ui.base.BaseActivity;
 import com.janus.bookCake.presentation.ui.fragments.BucketFragment;
+import static com.janus.bookCake.data.repositories.datasource.UserDataSourceRemote.firebaseAuth;
+
 
 import butterknife.ButterKnife;
 
@@ -76,5 +80,27 @@ public class BucketActivity extends BaseActivity {
     @Override
     public Fragment getAttachedFragment(String tag) {
         return getSupportFragmentManager().findFragmentByTag(tag);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_popup_bucket, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuItem = item.getItemId();
+
+        // Do the task
+        if (menuItem == R.id.menu_action_logout) {
+            firebaseAuth.signOut();
+            finish();
+            Intent myInt = new Intent(BucketActivity.this, OnBoardingActivity.class);
+            startActivity(myInt);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

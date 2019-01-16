@@ -20,7 +20,7 @@ import io.reactivex.ObservableSource;
 
 public class UserDataSourceRemote extends BaseFirebaseDataSource {
 
-    private FirebaseDatabase firebaseDatabase;
+    public static FirebaseDatabase firebaseDatabase;
     public static FirebaseAuth firebaseAuth;
 
     @Inject

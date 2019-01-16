@@ -115,9 +115,9 @@ public class LandingFragment extends BaseFragment
         if (presenter.isInMaintenance()) {
             showMessage("TODO: In maintenance");
         }
-//        else {
-//            presenter.checkIfUserIsLogged();
-//        }
+        else {
+            presenter.checkIfUserIsLogged();
+        }
 
         LottieAnimationView animationView = (LottieAnimationView) v.findViewById(R.id.animation_view);
         lottieProgressConfig(animationView);

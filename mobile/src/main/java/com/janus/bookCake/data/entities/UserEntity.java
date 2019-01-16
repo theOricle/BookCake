@@ -15,6 +15,7 @@ public class UserEntity {
     @SerializedName("password") private String password = null;
     @SerializedName("username") private String username = null;
 
+
     public UserEntity() {
         /*
          * Default constructor required for calls to DataSnapshot.getValue(UserEntity.class)
@@ -24,6 +25,13 @@ public class UserEntity {
     public UserEntity(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public UserEntity(String uid, String email, String password, String username) {
+        this.uid = uid;
+        this.email = email;
+        this.password = password;
+        this.username = username;
     }
 
     public String getUsername() {
