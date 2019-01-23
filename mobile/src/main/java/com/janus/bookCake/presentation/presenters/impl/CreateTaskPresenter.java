@@ -3,8 +3,10 @@ package com.janus.bookCake.presentation.presenters.impl;
 import android.os.Bundle;
 
 import com.janus.bookCake.domain.interactors.Params;
+import com.janus.bookCake.domain.interactors.practitioner.GetPractitionerListUseCase;
 import com.janus.bookCake.domain.interactors.taglist.GetTagListUseCase;
 import com.janus.bookCake.domain.interactors.task.CreateTaskUseCase;
+import com.janus.bookCake.domain.models.PractitionerListModel;
 import com.janus.bookCake.domain.models.TagListModel;
 import com.janus.bookCake.domain.models.TaskModel;
 import com.janus.bookCake.domain.models.TaskPriorityModel;
@@ -27,16 +29,19 @@ public final class CreateTaskPresenter extends BasePresenter<CreateTaskMVP.View>
         implements CreateTaskMVP.Presenter {
     private final static String TAG = CreateTaskPresenter.class.getName();
 
+    private final GetPractitionerListUseCase getPractitionerListUseCase;
     private final GetTagListUseCase getTagListUseCase;
     private final CreateTaskUseCase createTaskUseCase;
     private final AnalyticsInterface analyticsInterface;
     private final TaskReminderInterface taskReminderInterface;
 
     @Inject
-    public CreateTaskPresenter(GetTagListUseCase getTagListUseCase,
+    public CreateTaskPresenter(GetPractitionerListUseCase getPractitionerListUseCase,
+                               GetTagListUseCase getTagListUseCase,
                                CreateTaskUseCase createTaskUseCase,
                                AnalyticsInterface analyticsInterface,
                                TaskReminderInterface taskReminderInterface) {
+        this.getPractitionerListUseCase = getPractitionerListUseCase;
         this.getTagListUseCase = getTagListUseCase;
         this.createTaskUseCase = createTaskUseCase;
         this.analyticsInterface = analyticsInterface;
@@ -54,6 +59,40 @@ public final class CreateTaskPresenter extends BasePresenter<CreateTaskMVP.View>
         getTagListUseCase.dispose();
         createTaskUseCase.dispose();
         super.detachView();
+    }
+
+    @Override
+    public void getPractitionerList() {
+        if (!NetworkUtils.isNetworkEnabled(view.getContext())) {
+            view.showNoNetwork();
+            return;
+        }
+
+        getPractitionerListUseCase.execute(new CreateTaskPresenter.GetPractitionerListObserver(), Params.EMPTY);
+    }
+
+    @Override
+    public void onGetPractitionerListSuccess(PractitionerListModel practitionerListModel) {
+        checkViewAttached();
+        view.hideLoading();
+        view.showPractitionerList(practitionerListModel.toArray());
+    }
+
+    @Override
+    public void onGetPractitionerListFailure(Throwable e) {
+        e.printStackTrace();
+        checkViewAttached();
+        view.hideLoading();
+        view.showPractitionerListError();
+    }
+
+    @Override
+    public void onGetPractitionerListSuccessTracking() {
+
+    }
+
+    @Override
+    public void onGetPractitionerListFailureTracking(Throwable e) {
     }
 
     @Override
@@ -164,6 +203,25 @@ public final class CreateTaskPresenter extends BasePresenter<CreateTaskMVP.View>
                     taskModel.getId(),
                     diffSecs,
                     extras);
+        }
+    }
+
+    private final class GetPractitionerListObserver extends DefaultObserver<PractitionerListModel> {
+
+        @Override public void onComplete() {
+            super.onComplete();
+        }
+
+        @Override public void onError(Throwable e) {
+            super.onError(e);
+            onGetTagListFailureTracking(e);
+            onGetTagListFailure(e);
+        }
+
+        @Override public void onNext(PractitionerListModel practitionerListModel) {
+            super.onNext(practitionerListModel);
+            onGetPractitionerListSuccessTracking();
+            onGetPractitionerListSuccess(practitionerListModel);
         }
     }
 

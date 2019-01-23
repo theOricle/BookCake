@@ -3,6 +3,8 @@ package com.janus.bookCake.presentation.presenters;
 import android.app.DatePickerDialog;
 import android.speech.RecognitionListener;
 
+import com.janus.bookCake.domain.models.PractitionerListModel;
+import com.janus.bookCake.domain.models.PractitionerModel;
 import com.janus.bookCake.domain.models.TagListModel;
 import com.janus.bookCake.domain.models.TaskModel;
 import com.janus.bookCake.presentation.ui.base.BaseMvpView;
@@ -21,6 +23,9 @@ public interface CreateTaskMVP {
 
         void showMessageInvalidTaskTitle();
 
+        void showPractitionerList(PractitionerModel[] practitioners);
+        void showPractitionerListError();
+
         void showTagList(String[] tags);
         void showTagListError();
 
@@ -33,6 +38,13 @@ public interface CreateTaskMVP {
     }
 
     interface Presenter {
+        void getPractitionerList();
+        void onGetPractitionerListSuccess(PractitionerListModel practitionerListModel);
+        void onGetPractitionerListFailure(Throwable e);
+
+        void onGetPractitionerListSuccessTracking();
+        void onGetPractitionerListFailureTracking(Throwable e);
+
         void getTagList();
         void onGetTagListSuccess(TagListModel tagListModel);
         void onGetTagListFailure(Throwable e);

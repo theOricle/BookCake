@@ -2,6 +2,9 @@ package com.janus.bookCake.di.task;
 
 import android.support.v4.app.Fragment;
 
+import com.janus.bookCake.data.repositories.PractitionerListRepository;
+import com.janus.bookCake.data.repositories.datasource.PractitionerListDataSourceRemote;
+import com.janus.bookCake.domain.interactors.practitioner.GetPractitionerListUseCase;
 import com.janus.bookCake.external.AnalyticsInterface;
 import com.janus.bookCake.data.repositories.TagListRepository;
 import com.janus.bookCake.data.repositories.TaskRepository;
@@ -33,11 +36,13 @@ public class TaskModule {
     }
 
     @Provides
-    CreateTaskPresenter provideCreateTaskPresenter(GetTagListUseCase getTagListUseCase,
+    CreateTaskPresenter provideCreateTaskPresenter(GetPractitionerListUseCase getPractitionerListUseCase,
+                                                   GetTagListUseCase getTagListUseCase,
                                                    CreateTaskUseCase createTaskUseCase,
                                                    AnalyticsInterface analyticsInterface,
                                                    TaskReminderInterface taskReminderInterface) {
-        return new CreateTaskPresenter(getTagListUseCase,
+        return new CreateTaskPresenter(getPractitionerListUseCase,
+                getTagListUseCase,
                 createTaskUseCase,
                 analyticsInterface,
                 taskReminderInterface);
@@ -62,6 +67,10 @@ public class TaskModule {
     TagListDataSourceRemote provideTagListDataSource(FirebaseDatabase firebaseDatabase) {
         return new TagListDataSourceRemote(firebaseDatabase);
     }
+    @Provides
+    PractitionerListDataSourceRemote providePractitionerListDataSource(FirebaseDatabase firebaseDatabase) {
+        return new PractitionerListDataSourceRemote(firebaseDatabase);
+    }
 
     @Provides
     TaskDataSourceRemote provideTaskDataSource(FirebaseAuth firebaseAuth,
@@ -72,6 +81,10 @@ public class TaskModule {
     @Provides
     TagListRepository provideTagListRepository(TagListDataSourceRemote dataSource) {
         return new TagListRepository(dataSource);
+    }
+    @Provides
+    PractitionerListRepository providePractitionerListRepository(PractitionerListDataSourceRemote dataSource) {
+        return new PractitionerListRepository(dataSource);
     }
 
     @Provides

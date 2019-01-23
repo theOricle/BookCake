@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.ScaleAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
@@ -35,9 +37,12 @@ import com.janus.bookCake.R;
 import com.janus.bookCake.di.task.DaggerTaskComponent;
 import com.janus.bookCake.di.task.TaskComponent;
 import com.janus.bookCake.di.task.TaskModule;
+import com.janus.bookCake.domain.models.PractitionerModel;
 import com.janus.bookCake.domain.models.TaskPriorityModel;
 import com.janus.bookCake.presentation.presenters.CreateTaskMVP;
 import com.janus.bookCake.presentation.presenters.impl.CreateTaskPresenter;
+import com.janus.bookCake.presentation.ui.activities.DefaultCalendarActivity;
+import com.janus.bookCake.presentation.ui.adapters.PractitionerAdapter;
 import com.janus.bookCake.presentation.ui.base.BaseFragment;
 import com.janus.bookCake.utils.CustomDateUtils;
 import com.cremy.greenrobotutils.library.permission.PermissionHelper;
@@ -46,6 +51,7 @@ import com.cremy.greenrobotutils.library.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -135,10 +141,15 @@ public class CreateTaskFragment extends BaseFragment
                 idPriority);
     }
 
+
     @OnClick(R.id.container_item_deadline)
     public void clickContainerItemDeadline() {
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), this, startYear, startMonth, startDay);
-        dialog.show();
+//        DatePickerDialog dialog = new DatePickerDialog(getContext(), this, startYear, startMonth, startDay);
+//        dialog.show();
+
+        Intent intent = new Intent(getActivity(), DefaultCalendarActivity.class);
+        getActivity().startActivity(intent);
+
     }
 
     @OnClick(R.id.container_item_reminder)
@@ -215,6 +226,7 @@ public class CreateTaskFragment extends BaseFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getArgs(savedInstanceState);
+
     }
 
     @Override
@@ -223,6 +235,14 @@ public class CreateTaskFragment extends BaseFragment
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_create_task, container, false);
         ButterKnife.bind(this, v);
+
+        if (NetworkUtils.isNetworkEnabled(getContext())) {
+            this.showLoading();
+            this.presenter.getPractitionerList();
+        } else {
+            this.showNoNetwork();
+        }
+
         return v;
     }
 
@@ -299,6 +319,32 @@ public class CreateTaskFragment extends BaseFragment
     @Override
     public void showMessageInvalidTaskTitle() {
         showMessage(getResources().getString(R.string.error_create_task_invalid_title));
+    }
+
+    @Override
+    public void showPractitionerList(PractitionerModel[] practitioners) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+        builderSingle.setTitle("Select One Practitioner:");
+
+        ArrayList<PractitionerModel> arrayList = new ArrayList<>();
+        Collections.addAll(arrayList, practitioners);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        View view = this.getLayoutInflater().inflate(R.layout.fragment_practitioner_list, null);
+        RecyclerView list = view.findViewById(R.id.recycler_view);
+        list.setAdapter(new PractitionerAdapter(arrayList));
+        builder.setView(view)
+                .setPositiveButton("OK", null)
+                .setNegativeButton("Cancel", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void showPractitionerListError() {
+
     }
 
     @SuppressWarnings("ResourceType")

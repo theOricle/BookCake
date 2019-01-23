@@ -88,7 +88,7 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile "com.airbnb.android:lottie:2.0.0"
     compile 'io.michaelrocks:libphonenumber-android:8.4.1'
-
+    compile 'com.github.applikeysolutions:cosmocalendar:1.0.4'
 
     //endregion
 }

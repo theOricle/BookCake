@@ -48,13 +48,13 @@
     <string name="error_create_task_invalid_title">Please, provide a title for the task.</string>
     <string name="error_create_task_voice_recognition_error_code">Oops, error %1$d</string>
     <string name="error_create_task_voice_recognition">Oops, something went wrong while trying to understand what you said.</string>
-    <string name="error_create_task_get_tags">Oops, something went wrong while trying to get the tags.</string>
+    <string name="error_create_task_get_tags">Oops, something went wrong while trying to get the practitioners.</string>
 
     <!-- Bucket -->
     <string name="bucket_activity_placeholder_button_text">TRY AGAIN</string>
     <string name="bucket_placeholder_empty_title">Your Appointment list is empty!</string>
-    <string name="bucket_placeholder_empty_first_time_title">Welcome!\nDon\'t be shy and start by creating a task!</string>
-    <string name="bucket_placeholder_error_title">Oops, an error occurred while getting your Tasks.</string>
+    <string name="bucket_placeholder_empty_first_time_title">Welcome!\nDon\'t be shy and start by adding an appointment!</string>
+    <string name="bucket_placeholder_error_title">Oops, an error occurred while getting your Appointments.</string>
     <string name="stop_alarm">Close Reminder</string>
     <string name="fail_auth">phone verification failed</string>
 
@@ -1189,5 +1189,19 @@
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
     <string name="title_m_v">?attr/title_of_mobile_verification</string>
+
+    <string name="horizontal">Horizontal</string>
+    <string name="vertical">Vertical</string>
+    <string name="single">Single Day</string>
+    <string name="multiple">Multiple Days</string>
+    <string name="range">Date Range</string>
+    <string name="none">None</string>
+    <string name="select_all_fridays">Select All Fridays</string>
+    <string name="unselect_all_fridays">Unselect All Fridays</string>
+    <string name="select_three_months">Select Prev/Curr/Next Months</string>
+    <string name="unselect_three_months">Unselect Prev/Curr/Next Months</string>
+    <string name="clear_selections">Clear selections</string>
+    <string name="log_selected_days">Log selected days</string>
+
 
 </resources>

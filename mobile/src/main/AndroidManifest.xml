@@ -59,6 +59,11 @@
             android:launchMode="singleTask"
             android:theme="@style/BucketActivityTheme"/>
 
+        <activity
+            android:name=".presentation.ui.activities.DefaultCalendarActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/BucketActivityTheme"/>
+
         <!-- Firebase Messaging (FCM)-->
         <service android:name="com.janus.bookCake.firebase.services.FirebucketMessagingService">
             <intent-filter>

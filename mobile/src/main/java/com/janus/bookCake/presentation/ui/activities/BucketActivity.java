@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.janus.bookCake.R;
 import com.janus.bookCake.presentation.ui.base.BaseActivity;
 import com.janus.bookCake.presentation.ui.fragments.BucketFragment;
+
 import static com.janus.bookCake.data.repositories.datasource.UserDataSourceRemote.firebaseAuth;
 
 
@@ -48,6 +49,7 @@ public class BucketActivity extends BaseActivity {
         this.setUpToolbar();
 
         initFragment();
+
     }
 
     private void initFragment() {

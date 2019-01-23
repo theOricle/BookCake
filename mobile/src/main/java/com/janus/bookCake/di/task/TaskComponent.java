@@ -6,6 +6,7 @@ import com.janus.bookCake.data.repositories.datasource.TagListDataSourceRemote;
 import com.janus.bookCake.data.repositories.datasource.TaskDataSourceRemote;
 import com.janus.bookCake.di.app.component.AppComponent;
 import com.janus.bookCake.di.scope.ActivityScope;
+import com.janus.bookCake.domain.interactors.practitioner.GetPractitionerListUseCase;
 import com.janus.bookCake.domain.interactors.taglist.GetTagListUseCase;
 import com.janus.bookCake.domain.interactors.task.CreateTaskUseCase;
 import com.janus.bookCake.domain.interactors.task.DeleteTaskUseCase;
@@ -32,6 +33,7 @@ public interface TaskComponent {
     void inject(CreateTaskPresenter presenter);
 
     // UseCases/Interactors
+    void inject(GetPractitionerListUseCase useCase);
     void inject(GetTagListUseCase useCase);
     void inject(CreateTaskUseCase useCase);
     void inject(DeleteTaskUseCase useCase);
